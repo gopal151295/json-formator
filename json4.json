@@ -1,0 +1,13 @@
+{
+  "name": "test1",
+  "objs": {
+    "first": {
+      "sub": "1",
+      "num": 1
+    },
+    "scnd": {
+      "sub": "2",
+      "num": 2
+    }
+  }
+}
