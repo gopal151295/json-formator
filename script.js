@@ -1,44 +1,106 @@
-const getTableDatas = (key, val) => {
+const getType = v => {
+  let type = {
+    isNull: false,
+    isUndef: false,
+    isObj: false,
+    isArr: false,
+    isStrNum: false
+  };
+
+  if (typeof v === 'undefined') {
+    type.isUndef = true
+  } else if (v === null) {
+    type.isNull = true
+  } else if (Array.isArray(v)) {
+    type.isArr = true
+  } else if (!type.isArr && typeof v === 'object') {
+    type.isObj = true
+  } else {
+    type.isStrNum = true
+  }
+
+  return type;
+}
+
+const currState = {};
+
+const getTableDatas = (key, val, isCollapsed, type) => {
+  const {
+    isNull = false,
+    isUndef = false,
+    isArr = false,
+    isStrNum = false,
+    isObj = false
+  } = {} = type;
+
+  let isPrimitive = isStrNum || isNull || isUndef;
+
   let label = `
     <td class="treeLabelCell">
-      <span class="treeIcon"></span>
+      <span class="treeIcon">${!isPrimitive ? isCollapsed ? '+' : '-' : ''}</span>
       <span class="treeLabel stringLabel">
         ${key}
       </span>
     </td>
   `
-  let isObj = false, isArr = false, isStrNum = false;
-  if (Array.isArray(val)) {
-    isArr = true
-  } else if (!isArr && typeof val === 'object') {
-    isObj = true
-  } else {
-    isStrNum = true
-  }
-  
-  let cls = `objectBox objectBox-${isStrNum ? 'string' : isArr ? 'array' : 'object'}`
+  let objCls = `objectBox objectBox-${isPrimitive ? 'string' : isArr ? 'array' : 'object'}`
+  let cellCls = `treeValueCell ${isPrimitive ? 'string' : isArr ? 'array' : 'object'}Cell`
+  let objChld = `
+    <span class='${cellCls}'>
+      ${isPrimitive ? val : isArr ? '[...]' : '{...}'}
+    </span>
+  `
+
   let value = `
-    <td class="treeValueCell stringCell">
+    <td class='${objCls}'>
       <span>
-        <span class='${cls}'>
-          ${isStrNum ? val : isArr ? '[...]' : '{...}'}
-        </span>
+        ${(isPrimitive || isCollapsed) ? objChld : ''}
       </span>
     </td>
   `
   return label + value
 }
 
-const getTableRows = obj => {
+const getTableRows = (data, pKey, hasKeys) => {
 
   let trs = ''
-  Object.keys(obj).map(k => {
-    let tds = getTableDatas(k, obj[k])
+
+  hasKeys && Object.keys(data).map(k => {
+    let v = data[k]
+    const type = {} = getType(v)
+    const {
+      isNull = false,
+      isUndef = false,
+      isObj = false,
+      isArr = false,
+      isStrNum = false
+    } = type;
+
+    let isPrimitive = isStrNum || isNull || isUndef;
+    let isCollapsed = false
+
+    let tds = getTableDatas(k, v, isCollapsed, type)
+
+    let keyId = k.replace(/\\/g, "\\\\"); // every \ -> \\
+    keyId = keyId.replace(/\//g, "\\/");  // every / -> \/
+
+    let id = `${pKey === '/' ? '' : pKey}/${keyId}`
+
+    currState[id] = true;
+
+    let rowCls = `${isStrNum ? 'string' : isArr ? 'array' : 'object'}Row`
+    let childCls = `${v ? (isObj || isArr) ? 'hasChildren' : '' : ''}`
+    let collapsedCls = `${isCollapsed ? 'collapsed' : 'expanded'}`
+
+    let cls = `treeRow ${rowCls} ${childCls} ${collapsedCls}`
+
     let tr = `
-      <tr id=${k}>
+      <tr id='${id}' class='${cls}'>
         ${tds}
       </tr>
     `
+    let trChild = v ? getTableRows(v, id, !isPrimitive) : ''
+    tr += trChild
 
     trs += tr
   })
@@ -48,13 +110,13 @@ const getTableRows = obj => {
 
 
 document.addEventListener("DOMContentLoaded", function (event) {
-  fetch('http://localhost:8081/json6.json')
+  fetch('http://localhost:8081/json0.json')
     .then(res => res.json())
     .then(res => {
       console.log('res', res)
       let formated = ``
 
-      let tableRows = getTableRows(res)
+      let tableRows = getTableRows(res, '/', true)
 
       formated = tableRows
 

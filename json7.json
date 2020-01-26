@@ -1,0 +1,89 @@
+[
+  {
+    "sub": "1",
+    "num": 1,
+    "classes": [
+      {
+        "\\sub": "1",
+        "num": 1,
+        "classes": [
+          {
+            "sub": "1",
+            "num": 1,
+            "\\clas\\ses": [
+              {
+                "sub": "1",
+                "num": 1,
+                "classes": [
+                  {
+                    "sub": "1",
+                    "num": 1,
+                    "clas/ses": [
+                      {
+                        "sub": "1",
+                        "num": 1,
+                        "/classes": [
+                          {
+                            "su\\b": "1",
+                            "num": 1,
+                            "//classes": [
+                              {
+                                "sub": "1",
+                                "num": 1,
+                                "\\classes": [
+                                  {
+                                    "sub": "1",
+                                    "num": 1,
+                                    "//cla//sses": [
+                                      {
+                                        "sub": "1",
+                                        "num": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sub": "2",
+    "arrays": [
+      {
+        "sub": "1",
+        "num": 1
+      },
+      {
+        "sub": "2",
+        "num": 2
+      }
+    ],
+    "objs": {
+      "first": {
+        "sub": "1",
+        "num": 1
+      },
+      "scnd": {
+        "sub": "2",
+        "num": 2
+      }
+    }
+  },
+  {
+    "sub": "3",
+    "num": 3
+  },
+  "val1",
+  ["val2", "val3"]
+]

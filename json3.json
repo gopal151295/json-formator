@@ -1,13 +1,13 @@
-{
-  "name": "test1",
-  "arrays": [
-    {
-      "sub": "1",
-      "num": 1
+[
+  "val1",
+  {
+    "obj": {
+      "name": null
     },
-    {
-      "sub": "2",
-      "num": 2
-    }
-  ]
-}
+    "arr": [
+      "val3",
+      "val4"
+    ]
+  },
+  null
+]
